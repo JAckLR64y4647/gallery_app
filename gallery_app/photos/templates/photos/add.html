@@ -1,0 +1,42 @@
+<template>
+    <div>
+      <h2>Форма реєстрації на конференцію</h2>
+      <form @submit.prevent="submitForm">
+        <label for="name">Ім'я:</label>
+        <input type="text" id="name" v-model="participant.name" required>
+  
+        <label for="email">Email:</label>
+        <input type="email" id="email" v-model="participant.email" required>
+  
+        <button type="submit">Зареєструватися</button>
+      </form>
+    </div>
+  </template>
+  
+  <script>
+  import axios from 'axios';
+  
+  export default {
+    data() {
+      return {
+        participant: {
+          name: '',
+          email: ''
+        }
+      };
+    },
+    methods: {
+      submitForm() {
+        axios.post('/api/register', this.participant)
+          .then(response => {
+            alert('Ви успішно зареєстровані на конференцію!');
+            this.participant = { name: '', email: '' }; // очищення форми
+          })
+          .catch(error => {
+            console.error('Помилка при реєстрації на конференцію', error);
+          });
+      }
+    }
+  };
+  </script>
+  
